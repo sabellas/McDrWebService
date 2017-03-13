@@ -20,5 +20,11 @@ namespace McDrWebService
     
         public virtual medico medico { get; set; }
         public virtual paciente paciente { get; set; }
+        public bool all { get; set; }
+
+        public bool ShouldSerializecitas()
+        {
+            return (all);
+        }
     }
 }
