@@ -26,8 +26,16 @@ namespace McDrWebService
         public string apellidos { get; set; }
         public string dni { get; set; }
         public Nullable<System.DateTime> fechaNacimiento { get; set; }
-    
+        public bool all { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cita> citas { get; set; }
+
+        public bool ShouldSerializecitas()
+        {
+            return (all);
+        }
+
+
     }
 }
