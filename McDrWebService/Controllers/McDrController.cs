@@ -66,11 +66,7 @@ namespace McDrWebService.Controllers
         [Route("api/citas")]
         public HttpResponseMessage GetCitas()
         {
-            var citas = McDrRepository.GetAllCitas();
-            foreach (var _cita in citas)
-            {
-                _cita.all = false;
-            }
+            var citas = new DatosOut(false);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, citas);
             return response;
         }
@@ -78,11 +74,8 @@ namespace McDrWebService.Controllers
         [Route("api/citasAll")]
         public HttpResponseMessage GetAllCitas()
         {
-            var citas = McDrRepository.GetAllCitas();
-            foreach (var _cita in citas)
-            {
-                _cita.all = true;
-            }
+            var citas = new DatosOut(true);
+
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, citas);
             return response;
         }
