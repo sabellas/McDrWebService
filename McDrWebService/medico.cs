@@ -32,7 +32,7 @@ namespace McDrWebService
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cita> citas { get; set; }
         public virtual especialidad especialidad1 { get; set; }
-        public virtual Boolean all { get; set; }
+        public virtual bool all { get; set; }
         public Boolean ShouldSerializemedico()
         {
             return all;

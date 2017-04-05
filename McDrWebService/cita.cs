@@ -21,7 +21,7 @@ namespace McDrWebService
     
         public virtual medico medico { get; set; }
         public virtual paciente paciente { get; set; }
-        public virtual Boolean all { get; set; }
+        public virtual bool all { get; set; }
         public Boolean ShouldSerializemedico()
         {
             return all;
