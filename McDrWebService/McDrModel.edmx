@@ -4,14 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="mcdrdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="mcdrdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cita">
           <Key>
-            <PropertyRef Name="fecha_Hora" />
-            <PropertyRef Name="Medico_id" />
-            <PropertyRef Name="Paciente_id" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="fecha_Hora" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="fecha_Hora" Type="datetime" Nullable="false" />
           <Property Name="Medico_id" Type="int" Nullable="false" />
           <Property Name="Paciente_id" Type="int" Nullable="false" />
         </EntityType>
@@ -33,6 +32,7 @@
           <Property Name="especialidad" Type="int" Nullable="false" />
           <Property Name="fechaNacimiento" Type="date" />
           <Property Name="fechaAlta" Type="date" Nullable="false" />
+          <Property Name="fechaBaja" Type="date" />
         </EntityType>
         <EntityType Name="paciente">
           <Key>
@@ -44,31 +44,9 @@
           <Property Name="apellidos" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="dni" Type="nvarchar" MaxLength="9" Nullable="false" />
           <Property Name="fechaNacimiento" Type="date" />
+          <Property Name="fechaAlta" Type="date" />
+          <Property Name="fechaBaja" Type="date" />
         </EntityType>
-        <Association Name="FK_cita_medico">
-          <End Role="medico" Type="Self.medico" Multiplicity="1" />
-          <End Role="cita" Type="Self.cita" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="medico">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="cita">
-              <PropertyRef Name="Medico_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_cita_paciente">
-          <End Role="paciente" Type="Self.paciente" Multiplicity="1" />
-          <End Role="cita" Type="Self.cita" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="paciente">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="cita">
-              <PropertyRef Name="Paciente_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_medico_especialidad">
           <End Role="especialidad" Type="Self.especialidad" Multiplicity="1" />
           <End Role="medico" Type="Self.medico" Multiplicity="*" />
@@ -86,35 +64,25 @@
           <EntitySet Name="especialidad" EntityType="Self.especialidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="medico" EntityType="Self.medico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="paciente" EntityType="Self.paciente" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_cita_medico" Association="Self.FK_cita_medico">
-            <End Role="medico" EntitySet="medico" />
-            <End Role="cita" EntitySet="cita" />
-          </AssociationSet>
-          <AssociationSet Name="FK_cita_paciente" Association="Self.FK_cita_paciente">
-            <End Role="paciente" EntitySet="paciente" />
-            <End Role="cita" EntitySet="cita" />
-          </AssociationSet>
           <AssociationSet Name="FK_medico_especialidad" Association="Self.FK_medico_especialidad">
             <End Role="especialidad" EntitySet="especialidad" />
             <End Role="medico" EntitySet="medico" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="mcdrdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="cita">
           <Key>
-            <PropertyRef Name="fecha_Hora" />
-            <PropertyRef Name="Medico_id" />
-            <PropertyRef Name="Paciente_id" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="fecha_Hora" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_Hora" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Medico_id" Type="Int32" Nullable="false" />
           <Property Name="Paciente_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="medico" Relationship="Self.FK_cita_medico" FromRole="cita" ToRole="medico" />
           <NavigationProperty Name="paciente" Relationship="Self.FK_cita_paciente" FromRole="cita" ToRole="paciente" />
+          <Property Name="id" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="especialidad">
           <Key>
@@ -137,6 +105,7 @@
           <Property Name="fechaAlta" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="citas" Relationship="Self.FK_cita_medico" FromRole="medico" ToRole="cita" />
           <NavigationProperty Name="especialidad1" Relationship="Self.FK_medico_especialidad" FromRole="medico" ToRole="especialidad" />
+          <Property Name="fechaBaja" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="paciente">
           <Key>
@@ -149,6 +118,8 @@
           <Property Name="dni" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="fechaNacimiento" Type="DateTime" Precision="0" />
           <NavigationProperty Name="citas" Relationship="Self.FK_cita_paciente" FromRole="paciente" ToRole="cita" />
+          <Property Name="fechaAlta" Type="DateTime" Precision="0" />
+          <Property Name="fechaBaja" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_cita_medico">
           <End Role="medico" Type="Self.medico" Multiplicity="1" />
@@ -213,6 +184,7 @@
           <EntitySetMapping Name="citas">
             <EntityTypeMapping TypeName="mcdrdbModel.cita">
               <MappingFragment StoreEntitySet="cita">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="fecha_Hora" ColumnName="fecha_Hora" />
                 <ScalarProperty Name="Medico_id" ColumnName="Medico_id" />
                 <ScalarProperty Name="Paciente_id" ColumnName="Paciente_id" />
@@ -230,6 +202,7 @@
           <EntitySetMapping Name="medicos">
             <EntityTypeMapping TypeName="mcdrdbModel.medico">
               <MappingFragment StoreEntitySet="medico">
+                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="dni" ColumnName="dni" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
@@ -243,6 +216,8 @@
           <EntitySetMapping Name="pacientes">
             <EntityTypeMapping TypeName="mcdrdbModel.paciente">
               <MappingFragment StoreEntitySet="paciente">
+                <ScalarProperty Name="fechaBaja" ColumnName="fechaBaja" />
+                <ScalarProperty Name="fechaAlta" ColumnName="fechaAlta" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="NumTS" ColumnName="NumTS" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />

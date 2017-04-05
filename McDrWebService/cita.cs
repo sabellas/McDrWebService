@@ -17,21 +17,18 @@ namespace McDrWebService
         public System.DateTime fecha_Hora { get; set; }
         public int Medico_id { get; set; }
         public int Paciente_id { get; set; }
+        public int id { get; set; }
     
         public virtual medico medico { get; set; }
         public virtual paciente paciente { get; set; }
-        public bool all { get; set; }
-
-        public bool ShouldSerializemedico()
+        public virtual Boolean all { get; set; }
+        public Boolean ShouldSerializemedico()
         {
-
-            return (all);
+            return all;
         }
-
-        public bool ShouldSerializepaciente()
+        public Boolean ShouldSerializepaciente()
         {
-
-            return (all);
+            return all;
         }
     }
 }

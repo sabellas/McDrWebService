@@ -27,15 +27,19 @@ namespace McDrWebService
         public int especialidad { get; set; }
         public Nullable<System.DateTime> fechaNacimiento { get; set; }
         public System.DateTime fechaAlta { get; set; }
-        public bool all { get; set; }
-
+        public Nullable<System.DateTime> fechaBaja { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cita> citas { get; set; }
         public virtual especialidad especialidad1 { get; set; }
-       
-        public bool ShouldSerializecitas()
+        public virtual Boolean all { get; set; }
+        public Boolean ShouldSerializemedico()
         {
-            return (all);
+            return all;
+        }
+        public Boolean ShouldSerializepaciente()
+        {
+            return all;
         }
     }
 }
